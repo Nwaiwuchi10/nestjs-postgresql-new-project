@@ -7,6 +7,8 @@ import { join } from 'path';
 import { CitiesModule } from './cities/cities.module';
 import { City } from './cities/entities/city.entity';
 import { AuthModule } from './auth/auth.module';
+import { FeedModule } from './feed/feed.module';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [ ConfigModule.forRoot(),
@@ -27,7 +29,9 @@ import { AuthModule } from './auth/auth.module';
       }),
     }),
     CitiesModule,
-    AuthModule,],
+    AuthModule,
+    FeedModule,
+    ProductModule,],
   controllers: [AppController],
   providers: [AppService],
 })
