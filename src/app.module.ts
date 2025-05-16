@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { FeedModule } from './feed/feed.module';
 import { ProductModule } from './product/product.module';
 import { JwtModule } from '@nestjs/jwt';
+import { OrderModule } from './order/order.module';
 import config from './config/config';
 
 @Module({
@@ -48,6 +49,7 @@ import config from './config/config';
     AuthModule,
     FeedModule,
     ProductModule,
+    OrderModule,
   ],
   controllers: [AppController],
   providers: [AppService],
