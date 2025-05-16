@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -88,16 +92,55 @@ export class ProductService {
       slug: savedProduct.slug,
     };
   }
+  // creative-products.service.ts
+
+  async findAll(query: any): Promise<any> {
+    const resPerPage = 10;
+    const currentPage = Number(query.page) || 1;
+    const skip = resPerPage * (currentPage - 1);
+
+    const [data, total] = await this.productRepository.findAndCount({
+      order: {
+        createdAt: 'DESC',
+      },
+      relations: ['postedBy'],
+      take: resPerPage,
+      skip: skip,
+    });
+
+    // Optionally remove password from postedBy
+    const cleanedData = data.map((product) => {
+      if (product.postedBy) {
+        const { password, ...safeUser } = product.postedBy;
+        return { ...product, postedBy: safeUser };
+      }
+      return product;
+    });
+
+    return {
+      data: cleanedData,
+      total,
+      currentPage,
+      totalPages: Math.ceil(total / resPerPage),
+    };
+  }
+
   createNew(createProductDto: CreateProductDto) {
     return 'This action adds a new product';
   }
 
-  findAll() {
+  findAlls() {
     return `This action returns all product`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  async findOne(id: string) {
+    const data = await this.productRepository.findOne({
+      where: { id },
+    });
+    if (!data) {
+      throw new NotFoundException('Product not found');
+    }
+    return data;
   }
 
   update(id: number, updateProductDto: UpdateProductDto) {

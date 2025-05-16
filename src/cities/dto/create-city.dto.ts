@@ -1,6 +1,5 @@
-
 export class CreateCityDto {
-    name: string;
-    description: string;
-    active: boolean;
-  }
+  name: string;
+  description: string;
+  active: boolean;
+}
