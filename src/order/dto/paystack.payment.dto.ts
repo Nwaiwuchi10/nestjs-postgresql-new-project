@@ -127,8 +127,11 @@ export type Data = {
 export class PaystackCallbackDto {
   reference: string;
 }
-
 export enum PaymentStatus {
-  paid = 'paid',
-  notPaid = 'not paid',
+  PAID = 'paid',
+  NOT_PAID = 'not paid',
 }
+// export enum PaymentStatus {
+//   paid = 'paid',
+//   notPaid = 'not paid',
+// }
